@@ -22,7 +22,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
                         auth ->
-                                auth.requestMatchers("/oauth2/**", "/login/**").permitAll()
+                                auth.requestMatchers("/oauth2/**", "/login/**","/images/**").permitAll()
                                         .anyRequest().authenticated())
                 .oauth2Login(AbstractHttpConfigurer::disable
                 );

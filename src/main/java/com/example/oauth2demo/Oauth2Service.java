@@ -20,7 +20,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -76,9 +75,12 @@ public class Oauth2Service {
         HttpHeaders infoHeaders = new HttpHeaders();
         infoHeaders.setBearerAuth(accessToken);
         HttpEntity<String> infoRequest = new HttpEntity<>(infoHeaders);
-        var userInfoResponse = restTemplate.exchange(GOOGLE_INFO_URL, HttpMethod.GET, infoRequest, Map.class);
+        var userInfoResponse = restTemplate.exchange(GOOGLE_INFO_URL, HttpMethod.GET, infoRequest, String.class);
         var userInfo = userInfoResponse.getBody();
-        var user = new Oauth2User(userInfo);
+        jsonNode = objectMapper.readTree(userInfo);
+        var username = jsonNode.get("email");
+        var avatarUrl = jsonNode.get("picture");
+        var user = new Oauth2User(username.asText(),avatarUrl.asText());
         if (userInfo == null) {
             throw new IllegalArgumentException("Invalid user info");
         }

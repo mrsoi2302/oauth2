@@ -2,7 +2,6 @@ package com.example.oauth2demo;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,10 +26,5 @@ public class Oauth2Controller {
     public RedirectView loginByGoogle(@RequestParam String code, HttpServletRequest req) throws IOException {
         oauth2Service.exchangeCodeForToken(code, req);
         return new RedirectView("/user/info");
-    }
-
-    @GetMapping("/user/info")
-    public String userInfo() {
-        return ((Oauth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).toString();
     }
 }
