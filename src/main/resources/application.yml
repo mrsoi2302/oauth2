@@ -10,12 +10,23 @@ spring:
               - email
               - profile
             redirect-uri: http://localhost:8080/oauth2/google/callback
+          github:
+            client-secret: 53444f36f11ebe627dd8e07d759dc16fe66359f8
+            client-id: Iv23liYozHekepKbtx6o
+            scope:
+              - user:email
+              - read:user
+            redirect-uri: "http://localhost:8080/oauth2/github/callback"
         provider:
           google:
             authorization-uri: https://accounts.google.com/o/oauth2/auth
             token-uri: https://accounts.google.com/o/oauth2/token
             user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
             user-name-attribute: sub
+          github:
+            authorization-uri: https://github.com/login/oauth/authorize
+            token-uri: https://github.com/login/oauth/access_token
+            user-info-uri: https://api.github.com/user
 logging:
   level:
     org.springframework.security: DEBUG
